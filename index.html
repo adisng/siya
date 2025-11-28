@@ -237,6 +237,63 @@
             transform: scale(1.05);
         }
         
+        /* Password Protection */
+        .password-protection {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--gray-dark);
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .password-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white);
+            font-size: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .password-submit {
+            background: var(--accent);
+            color: var(--black);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .password-submit:hover {
+            background: #e6c44d;
+        }
+        
+        .password-error {
+            color: #ff6b6b;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .editor-content {
+            display: none;
+        }
+        
+        .editor-content.revealed {
+            display: block;
+            animation: fadeIn 1s ease;
+        }
+        
         /* Editor's Note */
         .editor-note {
             background: var(--gray-dark);
@@ -351,6 +408,16 @@
             color: var(--accent);
         }
         
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .vogue-header {
@@ -378,12 +445,69 @@
             }
             
             .vogue-nav {
-                flex-direction: column;
-                gap: 1rem;
+                flex-direction: row;
+                padding: 1rem;
+            }
+            
+            .vogue-nav-logo {
+                font-size: 1.2rem;
             }
             
             .vogue-nav-links {
-                gap: 1.5rem;
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0,0,0,0.95);
+                padding: 1rem 0;
+                text-align: center;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            .vogue-nav-links.active {
+                display: flex;
+            }
+            
+            .vogue-nav-links a {
+                padding: 0.8rem 0;
+                font-size: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .profile-img {
+                height: 400px;
+                width: 100%;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+            
+            .gallery-item {
+                height: 200px;
+            }
+            
+            .editor-note {
+                padding: 2rem 1.5rem;
+            }
+            
+            .editor-note:before {
+                font-size: 5rem;
+                left: 1rem;
+            }
+            
+            .password-protection {
+                padding: 2rem 1rem;
             }
         }
         
@@ -400,12 +524,17 @@
                 font-size: 2.2rem;
             }
             
-            .about-content {
-                flex-direction: column;
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .profile-img {
-                height: 400px;
+            .qualities-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .quality-card {
+                padding: 2rem 1.5rem;
             }
         }
     </style>
@@ -413,6 +542,7 @@
 <body>
     <nav class="vogue-nav">
         <div class="vogue-nav-logo">VOGUE</div>
+        <button class="mobile-menu-btn">☰</button>
         <div class="vogue-nav-links">
             <a href="#about">The Birthday Girl</a>
             <a href="#gallery">Gallery</a>
@@ -485,26 +615,39 @@
                 <img src="p8.JPG" alt="Photo 8">
             </div>
             <div class="gallery-item">
-                <img src="p9.jpeg" alt="Photo 8">
+                <img src="p9.jpeg" alt="Photo 9">
             </div>
         </div>
     </section>
 
     <section id="editor-note">
         <h2 class="section-title">NOTE FROM THE EDITOR</h2>
-        <div class="editor-note">
-            <p>Writing this all was a big, big, BIG Task and it was for you so, Why Not? i said;</p>
-            <p>Thank you for being the greatest friend, my support, thank you for listening to every late night rant, thank you soo much baby, Thank you for being born, Thank you for being my baby;</p>
-            <p>Thank you baby for choosing me;</p>
-            <p>I love you the mostest the toastest the postest</p>
-            <p>You're part of my family;</p>
-            <p>YOU ARE MY FAMILY</p>
-            <p>I LOVE YOU THE MOST BABY</p>
-            <p>Meri Cutlu Putlu baby.</p>
-            <p>Meri sundr Sundr Siya, meri pillu, meri pororororororo</p>
-            <p>A Big,Big, BIG THANK YOU FOR EVERYTHING Siya</p>
-            <p>Tere aane ke pehle bas nithalla tha mai, aaj jo hu tune banaya hai ,aaj jo hu tera hu poora ka poora</p>
-            <p class="editor-signature">- Aditya Singh</p>
+        
+        <div class="password-protection">
+            <h3>This content is password protected</h3>
+            <p>Enter the password to read the Editor's personal note</p>
+            <div class="password-form">
+                <input type="password" class="password-input" placeholder="Enter password" id="password-input">
+                <button class="password-submit" id="password-submit">Unlock Content</button>
+                <p class="password-error" id="password-error">Incorrect password. Please try again.</p>
+            </div>
+        </div>
+        
+        <div class="editor-content" id="editor-content">
+            <div class="editor-note">
+                <p>Writing this all was a big, big, BIG Task and it was for you so, Why Not? i said;</p>
+                <p>Thank you for being the greatest friend, my support, thank you for listening to every late night rant, thank you soo much baby, Thank you for being born, Thank you for being my baby;</p>
+                <p>Thank you baby for choosing me;</p>
+                <p>I love you the mostest the toastest the postest</p>
+                <p>You're part of my family;</p>
+                <p>YOU ARE MY FAMILY</p>
+                <p>I LOVE YOU THE MOST BABY</p>
+                <p>Meri Cutlu Putlu baby.</p>
+                <p>Meri sundr Sundr Siya, meri pillu, meri pororororororo</p>
+                <p>A Big,Big, BIG THANK YOU FOR EVERYTHING Siya</p>
+                <p>Tere aane ke pehle bas nithalla tha mai, aaj jo hu tune banaya hai ,aaj jo hu tera hu poora ka poora</p>
+                <p class="editor-signature">- Aditya Singh</p>
+            </div>
         </div>
     </section>
 
@@ -515,8 +658,46 @@
     </footer>
 
     <script>
-        // Animation for sections on scroll
+        // Password protection for Editor's Note
         document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password-input');
+            const passwordSubmit = document.getElementById('password-submit');
+            const passwordError = document.getElementById('password-error');
+            const editorContent = document.getElementById('editor-content');
+            const passwordProtection = document.querySelector('.password-protection');
+            
+            // Set the password here - change to whatever you want
+            const correctPassword = "Siya";
+            
+            passwordSubmit.addEventListener('click', function() {
+                if (passwordInput.value === correctPassword) {
+                    // Correct password
+                    editorContent.classList.add('revealed');
+                    passwordProtection.style.display = 'none';
+                    passwordError.style.display = 'none';
+                } else {
+                    // Incorrect password
+                    passwordError.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            });
+            
+            // Allow Enter key to submit password
+            passwordInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    passwordSubmit.click();
+                }
+            });
+            
+            // Mobile menu functionality
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.vogue-nav-links');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+            
             // Section animation on scroll
             const sections = document.querySelectorAll('section');
             
@@ -538,6 +719,9 @@
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
+                    
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
                     
                     window.scrollTo({
                         top: targetSection.offsetTop - 80,
