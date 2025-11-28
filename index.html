@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tansi Tripathi - Vogue Birthday Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-dark: #1a1a1a;
+            --gray-light: #f5f5f5;
+            --accent: #d4af37;
+        }
+        
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("101.JPG");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--white);
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .vogue-header {
+            font-size: 4rem;
+            letter-spacing: 8px;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+        
+        .date {
+            font-size: 1rem;
+            letter-spacing: 5px;
+            margin-bottom: 3rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.4s forwards;
+        }
+        
+        .main-title {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin: 2rem 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+        
+        .intro {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.8s forwards;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 2px;
+            background: var(--white);
+            margin: 1.5rem auto;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            font-size: 1.1rem;
+        }
+        
+        .profile-img {
+            flex: 1;
+            min-width: 300px;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.5s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.02);
+        }
+        
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+        
+        .profile-img:hover img {
+            filter: grayscale(0%);
+        }
+        
+        /* Qualities Grid */
+        .qualities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+        
+        .quality-card {
+            background: var(--gray-dark);
+            padding: 3rem 2rem;
+            border-left: 3px solid var(--accent);
+            transition: transform 0.5s ease, background 0.3s ease;
+        }
+        
+        .quality-card:hover {
+            transform: translateY(-10px);
+            background: #222;
+        }
+        
+        .quality-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .gallery-item {
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: all 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+        
+        /* Editor's Note */
+        .editor-note {
+            background: var(--gray-dark);
+            padding: 4rem;
+            margin: 4rem 0;
+            position: relative;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .editor-note:before {
+            content: '"';
+            font-size: 8rem;
+            position: absolute;
+            top: -1rem;
+            left: 2rem;
+            color: rgba(255,255,255,0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        
+        .editor-note p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .editor-signature {
+            text-align: right;
+            margin-top: 2rem;
+            font-style: italic;
+            font-size: 1.2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--gray-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .birthday-wish {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Navigation */
+        .vogue-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .vogue-nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        .vogue-nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .vogue-nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+        
+        .vogue-nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .vogue-header {
+                font-size: 2.5rem;
+            }
+            
+            .main-title {
+                font-size: 3rem;
+            }
+            
+            .intro {
+                font-size: 1.1rem;
+            }
+            
+            section {
+                padding: 4rem 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .birthday-wish {
+                font-size: 2.5rem;
+            }
+            
+            .vogue-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .vogue-nav-links {
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 6rem 1rem;
+            }
+            
+            .vogue-header {
+                font-size: 2rem;
+            }
+            
+            .main-title {
+                font-size: 2.2rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .profile-img {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="vogue-nav">
+        <div class="vogue-nav-logo">VOGUE</div>
+        <div class="vogue-nav-links">
+            <a href="#about">The Birthday Girl</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#editor-note">Editor's Note</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="vogue-header">VOGUE</div>
+        <div class="date">29 NOVEMBER 2025</div>
+        <h1 class="main-title">The Birthday Girl<br>Shines Brighter<br>Than Ever</h1>
+        <p class="intro">Featuring Her Most Beautiful Moments<br>INTRODUCING TANSI TRIPATHI<br>Exclusive Birthday Edition</p>
+    </header>
+
+    <section id="about">
+        <h2 class="section-title">THE BIRTHDAY GIRL</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Introducing Tansi Tripathi,</p>
+                <p>In a world full of loud entries, Tansi arrives with that quiet confidence jo seedha dil pe impact karti hai. She's elegance without trying, presence without noise, and charm without effort. The kind of girl who turns a regular moment into a Vogue–worthy snapshot—effortless, poised, and just the right amount of thoda–sa extra.</p>
+                <p>This year, she's not just stepping into her birthday—she's stepping into her era, where style meets substance and subtle sass becomes her signature.</p>
+                <p>Here's to Tansi: composed, captivating, and forever the soft spotlight in every room she walks into.</p>
+            </div>
+            <div class="profile-img">
+                <img src="2.jpeg" alt="Tansi Tripathi">
+            </div>
+        </div>
+        
+        <div class="qualities-grid">
+            <div class="quality-card">
+                <h3 class="quality-title">ELEVATED</h3>
+                <p>A refined approach to dressing: tailored structure, premium textures, and a quiet sophistication that defines her look.</p>
+            </div>
+            <div class="quality-card">
+                <h3 class="quality-title">CURATED</h3>
+                <p>Her eye for detail sets the tone: balanced proportions, rich materials, and styling that feels intentional from every angle.</p>
+            </div>
+            <div class="quality-card">
+                <h3 class="quality-title">CONFIDENCE</h3>
+                <p>A closer look at her effortless approach to style thoughtful choices, clean silhouettes, and a presence that stands out without trying.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="section-title">MOMENTS OF BRILLIANCE</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="p1.jpeg" alt="Photo 1">
+            </div>
+            <div class="gallery-item">
+                <img src="p2.jpeg" alt="Photo 2">
+            </div>
+            <div class="gallery-item">
+                <img src="p3.jpeg" alt="Photo 3">
+            </div>
+            <div class="gallery-item">
+                <img src="p4.JPG" alt="Photo 4">
+            </div>
+            <div class="gallery-item">
+                <img src="p5.JPG" alt="Photo 5">
+            </div>
+            <div class="gallery-item">
+                <img src="p6.JPG" alt="Photo 6">
+            </div>
+            <div class="gallery-item">
+                <img src="p7.JPG" alt="Photo 7">
+            </div>
+            <div class="gallery-item">
+                <img src="p8.JPG" alt="Photo 8">
+            </div>
+            <div class="gallery-item">
+                <img src="p9.jpeg" alt="Photo 8">
+            </div>
+        </div>
+    </section>
+
+    <section id="editor-note">
+        <h2 class="section-title">NOTE FROM THE EDITOR</h2>
+        <div class="editor-note">
+            <p>Writing this all was a big, big, BIG Task and it was for you so, Why Not? i said;</p>
+            <p>Thank you for being the greatest friend, my support, thank you for listening to every late night rant, thank you soo much baby, Thank you for being born, Thank you for being my baby;</p>
+            <p>Thank you baby for choosing me;</p>
+            <p>I love you the mostest the toastest the postest</p>
+            <p>You're part of my family;</p>
+            <p>YOU ARE MY FAMILY</p>
+            <p>I LOVE YOU THE MOST BABY</p>
+            <p>Meri Cutlu Putlu baby.</p>
+            <p>Meri sundr Sundr Siya, meri pillu, meri pororororororo</p>
+            <p>A Big,Big, BIG THANK YOU FOR EVERYTHING Siya</p>
+            <p>Tere aane ke pehle bas nithalla tha mai, aaj jo hu tune banaya hai ,aaj jo hu tera hu poora ka poora</p>
+            <p class="editor-signature">- Aditya Singh</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="birthday-wish">HAPPIEST BIRTHDAY SIYA</div>
+        <p>BIRTHDAY EDITION</p>
+        <p style="margin-top: 2rem; opacity: 0.7;">Editor-in-Chief: Aditya Singh</p>
+    </footer>
+
+    <script>
+        // Animation for sections on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section animation on scroll
+            const sections = document.querySelectorAll('section');
+            
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('.vogue-nav-links a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
