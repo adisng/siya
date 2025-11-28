@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -47,7 +47,6 @@
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("101.JPG");
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
             color: var(--white);
             text-align: center;
             padding: 8rem 2rem;
@@ -58,6 +57,17 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+        }
+        
+        /* Mobile-specific background fix */
+        @media (max-width: 768px) {
+            header {
+                background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("101.JPG");
+                background-size: cover;
+                background-position: center;
+                background-attachment: scroll;
+                background-repeat: no-repeat;
+            }
         }
         
         .vogue-header {
@@ -169,32 +179,41 @@
         .profile-img img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             filter: grayscale(100%);
             transition: filter 0.5s ease;
+            background-color: var(--gray-dark);
         }
         
         .profile-img:hover img {
             filter: grayscale(0%);
         }
         
-        /* Qualities Grid */
-        .qualities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
-            margin: 4rem 0;
+        /* Qualities Slideshow */
+        .qualities-slideshow {
+            position: relative;
+            max-width: 800px;
+            margin: 4rem auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .qualities-track {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
         .quality-card {
             background: var(--gray-dark);
             padding: 3rem 2rem;
             border-left: 3px solid var(--accent);
+            min-width: 100%;
             transition: transform 0.5s ease, background 0.3s ease;
+            position: relative;
         }
         
         .quality-card:hover {
-            transform: translateY(-10px);
             background: #222;
         }
         
@@ -204,37 +223,99 @@
             font-weight: 700;
         }
         
-        /* Gallery */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
+        .slideshow-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 2rem;
         }
         
-        .gallery-item {
-            height: 350px;
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+        
+        /* Gallery Slideshow */
+        .gallery-slideshow {
+            position: relative;
+            max-width: 1000px;
+            margin: 4rem auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            background-color: var(--gray-dark);
+        }
+        
+        .gallery-track {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .gallery-slide {
+            min-width: 100%;
+            height: 70vh;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .gallery-item:hover {
-            transform: translateY(-10px);
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .gallery-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             filter: grayscale(100%);
             transition: all 0.5s ease;
         }
         
-        .gallery-item:hover img {
+        .gallery-slide:hover img {
             filter: grayscale(0%);
-            transform: scale(1.05);
+            transform: scale(1.02);
+        }
+        
+        /* Slideshow Navigation */
+        .slideshow-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: var(--white);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+        
+        .slideshow-nav:hover {
+            background: rgba(0,0,0,0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .prev-slide {
+            left: 20px;
+        }
+        
+        .next-slide {
+            right: 20px;
         }
         
         /* Password Protection */
@@ -367,6 +448,17 @@
             }
         }
         
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
         /* Navigation */
         .vogue-nav {
             position: fixed;
@@ -488,13 +580,8 @@
                 width: 100%;
             }
             
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 1rem;
-            }
-            
-            .gallery-item {
-                height: 200px;
+            .gallery-slide {
+                height: 50vh;
             }
             
             .editor-note {
@@ -509,11 +596,18 @@
             .password-protection {
                 padding: 2rem 1rem;
             }
+            
+            .slideshow-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
         }
         
         @media (max-width: 480px) {
             header {
                 padding: 6rem 1rem;
+                min-height: 80vh;
             }
             
             .vogue-header {
@@ -524,13 +618,8 @@
                 font-size: 2.2rem;
             }
             
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .qualities-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            .gallery-slide {
+                height: 40vh;
             }
             
             .quality-card {
@@ -571,51 +660,76 @@
             </div>
         </div>
         
-        <div class="qualities-grid">
-            <div class="quality-card">
-                <h3 class="quality-title">ELEVATED</h3>
-                <p>A refined approach to dressing: tailored structure, premium textures, and a quiet sophistication that defines her look.</p>
+        <h3 class="section-title">HER QUALITIES</h3>
+        <div class="qualities-slideshow">
+            <button class="slideshow-nav prev-slide">❮</button>
+            <div class="qualities-track">
+                <div class="quality-card">
+                    <h3 class="quality-title">ELEVATED</h3>
+                    <p>A refined approach to dressing: tailored structure, premium textures, and a quiet sophistication that defines her look.</p>
+                </div>
+                <div class="quality-card">
+                    <h3 class="quality-title">CURATED</h3>
+                    <p>Her eye for detail sets the tone: balanced proportions, rich materials, and styling that feels intentional from every angle.</p>
+                </div>
+                <div class="quality-card">
+                    <h3 class="quality-title">CONFIDENCE</h3>
+                    <p>A closer look at her effortless approach to style thoughtful choices, clean silhouettes, and a presence that stands out without trying.</p>
+                </div>
             </div>
-            <div class="quality-card">
-                <h3 class="quality-title">CURATED</h3>
-                <p>Her eye for detail sets the tone: balanced proportions, rich materials, and styling that feels intentional from every angle.</p>
-            </div>
-            <div class="quality-card">
-                <h3 class="quality-title">CONFIDENCE</h3>
-                <p>A closer look at her effortless approach to style thoughtful choices, clean silhouettes, and a presence that stands out without trying.</p>
+            <button class="slideshow-nav next-slide">❯</button>
+            <div class="slideshow-indicators" id="qualities-indicators">
+                <div class="indicator active"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
             </div>
         </div>
     </section>
 
     <section id="gallery">
         <h2 class="section-title">MOMENTS OF BRILLIANCE</h2>
-        <div class="gallery">
-            <div class="gallery-item">
-                <img src="p1.jpeg" alt="Photo 1">
+        <div class="gallery-slideshow">
+            <button class="slideshow-nav prev-slide">❮</button>
+            <div class="gallery-track">
+                <div class="gallery-slide">
+                    <img src="p1.jpeg" alt="Photo 1">
+                </div>
+                <div class="gallery-slide">
+                    <img src="p2.jpeg" alt="Photo 2">
+                </div>
+                <div class="gallery-slide">
+                    <img src="p3.jpeg" alt="Photo 3">
+                </div>
+                <div class="gallery-slide">
+                    <img src="p4.JPG" alt="Photo 4">
+                </div>
+                <div class="gallery-slide">
+                    <img src="p5.JPG" alt="Photo 5">
+                </div>
+                <div class="gallery-slide">
+                    <img src="p6.JPG" alt="Photo 6">
+                </div>
+                <div class="gallery-slide">
+                    <img src="p7.JPG" alt="Photo 7">
+                </div>
+                <div class="gallery-slide">
+                    <img src="p8.JPG" alt="Photo 8">
+                </div>
+                <div class="gallery-slide">
+                    <img src="p9.jpeg" alt="Photo 9">
+                </div>
             </div>
-            <div class="gallery-item">
-                <img src="p2.jpeg" alt="Photo 2">
-            </div>
-            <div class="gallery-item">
-                <img src="p3.jpeg" alt="Photo 3">
-            </div>
-            <div class="gallery-item">
-                <img src="p4.JPG" alt="Photo 4">
-            </div>
-            <div class="gallery-item">
-                <img src="p5.JPG" alt="Photo 5">
-            </div>
-            <div class="gallery-item">
-                <img src="p6.JPG" alt="Photo 6">
-            </div>
-            <div class="gallery-item">
-                <img src="p7.JPG" alt="Photo 7">
-            </div>
-            <div class="gallery-item">
-                <img src="p8.JPG" alt="Photo 8">
-            </div>
-            <div class="gallery-item">
-                <img src="p9.jpeg" alt="Photo 9">
+            <button class="slideshow-nav next-slide">❯</button>
+            <div class="slideshow-indicators" id="gallery-indicators">
+                <div class="indicator active"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
             </div>
         </div>
     </section>
@@ -658,8 +772,85 @@
     </footer>
 
     <script>
+        // Slideshow functionality
+        class Slideshow {
+            constructor(container, autoPlayInterval = 5000) {
+                this.container = container;
+                this.track = container.querySelector('.qualities-track') || container.querySelector('.gallery-track');
+                this.slides = Array.from(this.track.children);
+                this.prevButton = container.querySelector('.prev-slide');
+                this.nextButton = container.querySelector('.next-slide');
+                this.indicators = container.querySelector('.slideshow-indicators');
+                this.indicatorDots = Array.from(this.indicators.children);
+                this.currentIndex = 0;
+                this.autoPlayInterval = autoPlayInterval;
+                this.autoPlayTimer = null;
+                
+                this.init();
+            }
+            
+            init() {
+                // Set up event listeners
+                this.prevButton.addEventListener('click', () => this.prevSlide());
+                this.nextButton.addEventListener('click', () => this.nextSlide());
+                
+                // Set up indicator clicks
+                this.indicatorDots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+                
+                // Start autoplay
+                this.startAutoPlay();
+                
+                // Pause on hover
+                this.container.addEventListener('mouseenter', () => this.stopAutoPlay());
+                this.container.addEventListener('mouseleave', () => this.startAutoPlay());
+            }
+            
+            updateSlides() {
+                // Move track to show current slide
+                this.track.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+                
+                // Update indicators
+                this.indicatorDots.forEach(dot => dot.classList.remove('active'));
+                this.indicatorDots[this.currentIndex].classList.add('active');
+            }
+            
+            nextSlide() {
+                this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+                this.updateSlides();
+            }
+            
+            prevSlide() {
+                this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+                this.updateSlides();
+            }
+            
+            goToSlide(index) {
+                this.currentIndex = index;
+                this.updateSlides();
+            }
+            
+            startAutoPlay() {
+                this.autoPlayTimer = setInterval(() => {
+                    this.nextSlide();
+                }, this.autoPlayInterval);
+            }
+            
+            stopAutoPlay() {
+                if (this.autoPlayTimer) {
+                    clearInterval(this.autoPlayTimer);
+                    this.autoPlayTimer = null;
+                }
+            }
+        }
+        
         // Password protection for Editor's Note
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize slideshows
+            const qualitiesSlideshow = new Slideshow(document.querySelector('.qualities-slideshow'), 4000);
+            const gallerySlideshow = new Slideshow(document.querySelector('.gallery-slideshow'), 3000);
+            
             const passwordInput = document.getElementById('password-input');
             const passwordSubmit = document.getElementById('password-submit');
             const passwordError = document.getElementById('password-error');
